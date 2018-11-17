@@ -1,22 +1,33 @@
 if: tag IS blank
 language: node_js
 node_js:
-  - 'node'
+- node
 matrix:
   include:
-    -
-      sudo: required
-      dist: trusty
-      addons:
-        chrome: stable
-      licenses:
-        - android-sdk-preview-license-.+
-        - android-sdk-license-.+
-        - google-gdk-license-.+
-      before_script:
-        - 'echo hi'
-      script:
-        - 'cd AttendanceService'
-        - 'mvn install'
-        - 'cp src/config.yaml target/AttendanceService-0.0.1-SNAPSHOT/WEB-INF/classes/'
-        - 'zip -r AttendanceService.war target/AttendanceService-0.0.1-SNAPSHOT'
+  - sudo: required
+    dist: trusty
+    addons:
+      chrome: stable
+    licenses:
+    - android-sdk-preview-license-.+
+    - android-sdk-license-.+
+    - google-gdk-license-.+
+    before_script:
+    - echo hi
+    script:
+    - cd AttendanceService
+    - mvn install
+    - cp src/config.yaml target/AttendanceService-0.0.1-SNAPSHOT/WEB-INF/classes/
+    - zip -r AttendanceService.war target/AttendanceService-0.0.1-SNAPSHOT
+    deploy:
+      provider: releases
+      api_key: GITHUB OAUTH TOKEN
+      file: FILE TO UPLOAD
+      skip_cleanup: true
+deploy:
+  provider: releases
+  api_key:
+    secure: BzIImhzCkLDHzMrv5ZLJZgxIK+kIXsLjfHU3Ll16GNEFKVSXQ7XmaNmZNXWf3+3nhqvbPwLk1IaLq3aSN6hnBKeYtBF/6zTZwCapcwJffjhtgwm6ydP4e1iu2AslMXezeqvx8BCox+/0nSPvTwzDtW6pWGhDGk/zvk+uY+M07looCAW+Z7QR/YSYr61bqmu4XwpprjSwbjEkz9d5BXQulFIL2za9hQdArVHyaMcX7YiqTFKg1k9muN8wYCAYrVp0MzzF/yIZY/p1qawlj9DbHomx4plMGjUh7/NA7en7uqHrnf81rU+Nh1h87Sj17lv1bnkNV2oJu4Jkhg1DLF5zR2qCd2RJPg9ljh6E2wS7HmixvxD3Kr4DfKQbnG1Z3pLkbOdKMmfCCdN8fGt30uddn5xDA1Q2mqCgN8pvCP/SUVn+IjKrmt5ZVStOW9V0FCxU6UP/Bi7KZF1MH7g6sQEBUYw5yLC3flmSbRZsxod+NUkov7pyJ6nYViXC3EbayiN9Ua0c5IKJmSdY+XdAeUbQVTImiVDq9khNrFPmbK0tuEUraHhekzmM5n/iDcOq72x4zmIbcYWOQZeA17LNpaTMSbvvdt8nSATO8YuQGoAcWyLdO+mfMR+XQE33ChGUr378T0Eh4iaMXC34kU7ldIBAGNeGwUkD4P0yjkjQ3nB66wY=
+  file: AttendanceService/AttendanceService.war
+  on:
+    repo: picrin/attendanceTrack
