@@ -17,8 +17,11 @@ matrix:
     script:
     - cd AttendanceService
     - mvn install
-    - cp src/config.yaml target/AttendanceService-0.0.1-SNAPSHOT/WEB-INF/classes/
-    - zip -r AttendanceService.war target/AttendanceService-0.0.1-SNAPSHOT
+    - cd target
+    - rm -fr AttendanceService-0.0.1-SNAPSHOT
+    - unzip AttendanceService-0.0.1-SNAPSHOT.war
+    - cp src/config.yaml WEB-INF/classes/
+    - zip -r AttendanceService.war WEB-INF META-INF
     - pwd
 deploy:
   provider: releases
