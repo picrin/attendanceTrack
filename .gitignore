@@ -1,3 +1,9 @@
+.project
+target
+.factorypath
+AttendanceService/.settings/org.eclipse.jdt.core.prefs
+AttendanceService/.settings/org.eclipse.jdt.apt.core.prefs
+
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore
 .gradle

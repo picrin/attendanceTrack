@@ -18,3 +18,5 @@ matrix:
       script:
         - 'cd AttendanceService'
         - 'mvn install'
+        - 'cp src/config.yaml target/AttendanceService-0.0.1-SNAPSHOT/WEB-INF/classes/'
+        - 'zip -r AttendanceService.war target/AttendanceService-0.0.1-SNAPSHOT'
