@@ -2,6 +2,8 @@ if: tag IS blank
 language: node_js
 node_js:
 - node
+services:
+  - mysql
 matrix:
   include:
   - sudo: required
@@ -26,7 +28,7 @@ matrix:
     - sudo apt-get install tomcat8 --yes
     - sudo rm -fr /var/lib/tomcat8/webapps/ROOT
     - sudo cp AttendanceService.war /var/lib/tomcat8/webapps/ROOT.war
-    - sudo apt-get install mysql-server --yes
+    #- sudo apt-get install mysql-server --yes
     - echo "GRANT ALL PRIVILEGES ON *.* TO 'picrin'@'localhost' IDENTIFIED BY 'password';" | sudo mysql -u root
     - cd ../..
     - mysql -u picrin --password=password < database.dump
