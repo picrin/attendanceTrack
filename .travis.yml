@@ -23,6 +23,18 @@ matrix:
     - cp ../src/config.yaml WEB-INF/classes/
     - zip -r AttendanceService.war WEB-INF META-INF
     - pwd
+    - sudo apt-get install tomcat8 --yes
+    - sudo rm -fr /var/lib/tomcat8/webapps/ROOT
+    - sudo cp AttendanceService.war /var/lib/tomcat8/webapps/ROOT.war
+    - sudo apt-get install mysql-server --yes
+    - echo "GRANT ALL PRIVILEGES ON *.* TO 'picrin'@'localhost' IDENTIFIED BY 'password';" | sudo mysql -u root
+    - cd ../..
+    - mysql -u picrin --password=password < database.dump
+    - sleep 10
+    - curl -H "Content-type:application/json" -X POST 127.0.01:8080/rest/login --data '{"guid": "admin", "password": "alwyn96327011"}' -c - | awk '{print $7}' | tail -n 1 > token
+    - token=$(cat token)
+    - curl -H "Content-type:application/json" -X POST 127.0.01:8080/rest/getGroups --data '{"guid": "admin"}' --cookie "token=$token" > answer
+    - if grep -q CS1P answer; then echo "0"; else exit 1; fi
 deploy:
   provider: releases
   api_key:
