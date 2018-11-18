@@ -5,7 +5,7 @@ node_js:
 matrix:
   include:
   - sudo: required
-    dist: trusty
+    dist: bionic
     addons:
       chrome: stable
     licenses:
@@ -31,10 +31,7 @@ matrix:
     - cd ../..
     - mysql -u picrin --password=password < database.dump
     - sleep 10
-    - curl -H "Content-type:application/json" -X POST 127.0.01:8080/rest/login --data '{"guid": "admin", "password": "alwyn96327011"}' -c - | awk '{print $7}' | tail -n 1 > token
-    - token=$(cat token)
-    - curl -H "Content-type:application/json" -X POST 127.0.01:8080/rest/getGroups --data '{"guid": "admin"}' --cookie "token=$token" > answer
-    - if grep -q CS1P answer; then echo "0"; else exit 1; fi
+    - bash integration_test.bash
 deploy:
   provider: releases
   api_key:
